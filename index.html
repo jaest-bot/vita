@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M.E.G. 探險者總署 · 後室層級資料庫</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --terminal-green: #39ff14;
+            --warning-red: #ff3333;
+            --text-color: #cdd6f4;
+            --accent-blue: #00d2ff;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Courier New', Courier, monospace, "Microsoft JhengHei";
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            /* 模擬微弱的螢光燈閃爍感與偏藍氛圍 */
+            box-shadow: inset 0 0 100px rgba(0, 210, 255, 0.1);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid #1e293b;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .header {
+            border-bottom: 2px solid var(--accent-blue);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: var(--accent-blue);
+            margin: 0;
+            font-size: 1.8rem;
+            text-shadow: 0 0 8px rgba(0, 210, 255, 0.5);
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+        .info-item span {
+            color: #64748b;
+        }
+
+        .stars {
+            color: var(--warning-red);
+        }
+
+        .warning-box {
+            border-left: 4px solid var(--warning-red);
+            background: rgba(255, 51, 51, 0.1);
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .warning-title {
+            color: var(--warning-red);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .log-section {
+            border: 1px solid #334155;
+            border-radius: 4px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .log-toggle {
+            background: #1e293b;
+            color: var(--text-color);
+            padding: 12px 15px;
+            width: 100%;
+            text-align: left;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: inherit;
+        }
+
+        .log-toggle:hover {
+            background: #334155;
+        }
+
+        .log-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .log-content.open {
+            max-height: 1500px; /* 足夠容納日誌的高度 */
+            transition: max-height 0.6s ease-in;
+        }
+
+        .log-inner {
+            padding: 15px;
+        }
+
+        .day-entry {
+            margin-bottom: 20px;
+            border-bottom: 1px dashed rgba(100, 116, 139, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .day-title {
+            color: var(--accent-blue);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .memo-section {
+            background: rgba(57, 255, 20, 0.05);
+            border: 1px solid rgba(57, 255, 20, 0.2);
+            padding: 20px;
+            border-radius: 4px;
+            margin-top: 30px;
+        }
+
+        .memo-title {
+            color: var(--terminal-green);
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 0 0 5px rgba(57, 255, 20, 0.3);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #475569;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Level 0.8 ——「坐墊室」</h1>
+        <div class="subtitle">Level 0 之子層級 · 資料狀態：極度不完整</div>
+    </div>
+
+    <div class="info-grid">
+        <div class="info-item"><span>生存難度：</span> ? / 5</div>
+        <div class="info-item"><span>非歐幾里得：</span> <span class="stars">★★★★★</span></div>
+        <div class="info-item"><span>信息完整度：</span> ? / 5</div>
+        <div class="info-item"><span>物資匱乏：</span> <span class="stars">★★★★★</span></div>
+    </div>
+
+    <div>
+        <h3>層級描述</h3>
+        <p>目前僅有一名流浪者宣稱曾抵達此層級。Level 0.8 初始呈現為一正方形臥室，無論大小，地板上總存在 1 至 3 個坐墊，本層級因此得名。</p>
+        <p>隨流浪者在其中停留的時間增加，空間會逐漸發生扭曲與改變。數日後，房內陳設增加，並出現通向更大房間的單向入口。自第二個房間起，每次睡眠後房內陳設將隨機改變，同時開始向下延伸生成新的房間——每次生成都比前一個更大，流浪者僅能單向向下行進，無法返回上層。</p>
+        <p>數十天後，房間內的陳設開始無視重力隨機擺放，最終可能在底部空間中出現杏仁水泳池。根據日誌記錄，跳入泳池將被傳送至一處疑似並非 Level 0 本體的空間——隨後記錄者就此失聯。</p>
+    </div>
+
+    <div class="warning-box">
+        <div class="warning-title">⚠ M.E.G. 警告：</div>
+        <div>日誌原件發現於 Level 0 地板上一艘來歷不明的木筏上。記錄者身分不明，搜救隊已出動，目前尚無回報。在更多資訊確認前，強烈建議各位流浪者勿嘗試任何方式抵達此層級。</div>
+    </div>
+
+    <div class="log-section">
+        <button class="log-toggle" onclick="toggleLog()">
+            <span>📂 展開 / 收合日誌全文（2月15日 — 3月1日）</span>
+            <span id="arrow">▼</span>
+        </button>
+        <div class="log-content" id="logContent">
+            <div class="log-inner">
+                <div class="day-entry">
+                    <div class="day-title">2月15日</div>
+                    <div>我不知道我現在在哪裡。在 Level 0 試圖逃離一隻未知實體時誤入了這裡——說來奇怪，Level 0 不是沒有實體嗎？雖然我也沒敢讓它追上，沒看到它的樣子。這似乎是個全新的層級，M.E.G. 沒有記錄過。我試圖打開門，但門後是實心的牆壁。我累了，需要睡上一覺。</div>
+                </div>
+                <div class="day-entry">
+                    <div class="day-title">2月16日</div>
+                    <div>這裡變得不一樣了——床後多了一個嵌入式衣櫃，裡面有很多質地很好的衣服。</div>
+                </div>
+                <div class="day-entry">
+                    <div class="day-title">2月17日</div>
+                    <div>一覺醒來發現自己躺在地上，床不見了，取而代之的是隔斷和鞋櫃、一個木質小吊櫃。仍然沒有找到離開的辦法。</div>
+                </div>
+                <div class="day-entry">
+                    <div class="day-title">2月18日</div>
+                    <div>空間以非常詭異的方式變大了，但無論我如何測量，這個房間的最大面積仍舊是 2×2。多出的地方是個電腦間，具有 WiFi 信號。我嘗試聯繫 M.E.G.，但沒有回覆。</div>
+                </div>
+                <div class="day-entry">
+                    <div class="day-title">2月19日</div>
+                    <div>多了梳妝台，但鏡子的位置是個門，對面是個更為寬闊的房間，有一張兩米長的大床。仍無出口。</div>
+                </div>
+                <div class="day-entry">
+                    <div class="day-title">2月20日</div>
+                    <div>床上多了一層，二層有衣櫃 and 休閒區，還有一個封死的窗戶，打不開。</div>
+                </div>
+                <div class="day-entry">
+                    <div class="day-title">2月21日</div>
+                    <div>窗戶消失了，一層變得更大，多了一個類似二層的休閒區設計。</div>
+                </div>
+                <div class="day-entry">
+                    <div class="day-title">2月22日</div>
+                    <div>開始不符合常理了。一層往下可以無限延伸，我試圖回到最開始的空間，但根本回不去了。有一張床被放在牆上。我的食物和水已耗盡。</div>
+                </div>
+                <div class="day-entry">
+                    <div class="day-title">2月23日</div>
+                    <div>走到了盡頭，但這裡是一個非常大的空間，地板被瓷磚鋪滿。走不到盡頭。</div>
+                </div>
+                <div class="day-entry">
+                    <div class="day-title">2月24日、25日、26日</div>
+                    <div>還是沒有走到盡頭。沒有盡頭。沒有。</div>
+                </div>
+                <div class="day-entry">
+                    <div class="day-title">2月27日</div>
+                    <div>中間有個泳池——是杏仁水。它可以暫緩燃眉之急，即使可能不能飲用。我一不小心跌進了池子，來到了一個全新的空間，在持續下落，但沒有底。</div>
+                </div>
+                <div class="day-entry">
+                    <div class="day-title">2月28日</div>
+                    <div>我沒有摔死，甚至毫髮無損。這裡是……Level 0？我回來了？</div>
+                </div>
+                <div class="day-entry">
+                    <div class="day-title">2月29日</div>
+                    <div>很奇怪，這裡感覺完全不一樣，但在 Level 0 這個無比廣闊的地方也是正常現象，可能只是我多想了——雖然與之前黃得要死的螢光燈比，似乎有些偏藍。</div>
+                </div>
+                <div class="day-entry">
+                    <div class="day-title">3月1日</div>
+                    <div style="color: var(--warning-red); font-weight: bold;">這裡不是 Level ── 日誌於此中斷。</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="memo-section">
+        <div class="memo-title">🔒 M.E.G. 機密備忘錄 · 理論部內部文件 · 禁止外傳</div>
+        <p><strong>Level 0.8「坐墊室」補遺</strong></p>
+        <p>經過多次交叉比對，我們推測 Level 0.8 並非真正的危險層級。所謂的「失蹤者」日誌，實際上可能只是流浪者在切入過程中留下的倒像。本人並未進入 Level 0.8，而是正常切入至 Level 1。留在 Level 0.8 的，只是意識的碎片與倒影。</p>
+        <p><strong>結論：</strong> 所有危險與恐懼僅存在於倒像中，隨水波消散。當你看著水窪中的自己時，請記住——那並不是你，而只是被打碎的倒影。</p>
+    </div>
+
+    <div class="footer">
+        資料完整度 12% · 核心數據庫持續更新中
+    </div>
+</div>
+
+<script>
+    function toggleLog() {
+        const content = document.getElementById('logContent');
+        const arrow = document.getElementById('arrow');
+        content.classList.toggle('open');
+        
+        if (content.classList.contains('open')) {
+            arrow.textContent = '▲';
+        } else {
+            arrow.textContent = '▼';
+        }
+    }
+</script>
+
+</body>
+</html>
