@@ -1,3 +1,1 @@
-streamlit
-pandas
-plotly
+streamlit、yfinance、matplotlib、pandas、numpy、mplfinance
