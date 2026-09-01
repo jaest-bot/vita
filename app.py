@@ -14,7 +14,7 @@ st.set_page_config(page_title="台股六大指標分析", layout="wide")
 
 # 設定 Matplotlib 支援中文顯示
 
-font_path = os.path.join(os.path.dirname(__file__), 'msjh.ttf')
+font_path = os.path.join(os.path.dirname(__file__), 'NotoSansTC-Regular.ttf')
 if os.path.exists(font_path):
     fm.fontManager.addfont(font_path)
     # 取得字體的真實名稱並設為第一順位
