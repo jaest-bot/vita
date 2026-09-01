@@ -11,7 +11,7 @@ import matplotlib
 st.set_page_config(page_title="台股六大指標分析", layout="wide")
 
 # 設定 Matplotlib 支援中文顯示
-matplotlib.rc('font', family='Microsoft JhengHei') # Windows 預設微軟正黑體
+matplotlib.rc('font', family=['Heiti TC', 'Arial Unicode MS', 'Noto Sans CJK TC', 'Microsoft JhengHei', 'sans-serif'])
 matplotlib.rc('axes', unicode_minus=False)
 
 # --- 側邊欄：使用者互動輸入區 ---
